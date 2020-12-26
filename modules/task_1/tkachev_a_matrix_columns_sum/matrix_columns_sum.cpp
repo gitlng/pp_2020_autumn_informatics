@@ -34,7 +34,6 @@ std::vector<int> matrixColumnsSum(std::vector<int> vector, int count_columns, in
     assert(vector.size() != 0);
 
     std::vector<int> sum_columns;
-
     int check_sum = 0;
 
     for (int item : vector) {
