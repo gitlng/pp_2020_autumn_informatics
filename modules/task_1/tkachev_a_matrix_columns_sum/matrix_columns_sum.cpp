@@ -18,7 +18,7 @@ std::vector<int> randomMatrix(int count_rows, int count_columns) {
 
     std::vector<int> matrix(count_rows * count_columns);
 
-    for (int i = 0; i < matrix.size(); i++) {
+    for (uint64_t i = 0; i < matrix.size(); i++) {
         matrix[i] = gen() % 50 - 50;
     }
 
