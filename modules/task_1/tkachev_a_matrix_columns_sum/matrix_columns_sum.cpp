@@ -9,23 +9,23 @@
 #include <cmath>
 #include "../../../../modules/task_1/tkachev_a_matrix_columns_sum/matrix_columns_sum.h"
 
-std::vector<int> generateRandomMatrix(int count_rows, int count_columns) {
+std::vector<int> randomMatrix(int count_rows, int count_columns) {
     assert(count_columns != 0);
     assert(count_rows != 0);
 
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(time(0)));
+
     std::vector<int> matrix(count_rows * count_columns);
 
-    std::mt19937 generator(time(0));
-    std::uniform_int_distribution<> int_distribution(-50, 50);
-
-    for (uint64_t i = 0; i < matrix.size(); i++) {
-        matrix[i] = int_distribution(generator);
+    for (int i = 0; i < matrix.size(); i++) {
+        matrix[i] = gen() % 50 - 50;
     }
 
     return matrix;
 }
 
-std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_columns, int count_rows,
+std::vector<int> matrixColumnsSum(std::vector<int> vector, int count_columns, int count_rows,
                                         uint64_t count_processes, int process_id, int offset) {
     assert(count_processes != 0);
     assert(count_columns != 0);
@@ -109,7 +109,7 @@ std::vector<int> getSequentialColumnsSum(std::vector<int> vector, int count_colu
     return sum_columns;
 }
 
-std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_columns, int count_rows) {
+std::vector<int> parallelMatrixColumnsSum(std::vector<int> matrix, int count_columns, int count_rows) {
     assert(count_columns != 0);
     assert(count_rows != 0);
     assert(matrix.size() != 0);
@@ -180,7 +180,7 @@ std::vector<int> getParallelColumnsSum(std::vector<int> matrix, int count_column
     }
 
     std::vector<int> global_columns_sum(count_columns);
-    std::vector<int> sequential_columns_sum = getSequentialColumnsSum(
+    std::vector<int> sequential_columns_sum = matrixColumnsSum(
         local_vec, count_columns, count_rows, uintprocesses_count, process_rank, offset);
 
     MPI_Reduce(
